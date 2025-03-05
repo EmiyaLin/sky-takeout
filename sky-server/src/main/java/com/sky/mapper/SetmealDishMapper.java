@@ -7,4 +7,6 @@ import java.util.List;
 @Mapper
 public interface SetmealDishMapper {
     List<Long> getSetmealIdsByDishIds(List<Long> ids);
+
+    void updateStatus(Long id, Integer status);
 }

@@ -37,4 +37,6 @@ public interface DishMapper {
 
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
+
+    void updateStatus(Long id, Integer status);
 }

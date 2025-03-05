@@ -16,6 +16,13 @@
         </set>
         where id = #{id}
     </update>
+    <update id="updateStatus">
+        update dish
+        <set>
+            <if test="status != null">status = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
     <delete id="deleteBatch">
         delete from dish where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
