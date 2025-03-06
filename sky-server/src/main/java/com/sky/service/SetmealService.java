@@ -17,4 +17,6 @@ public interface SetmealService {
     void update(SetmealDTO setmealDTO);
 
     SetmealVO getByIdWithFlavor(Long id);
+
+    void startOrStop(Integer status, Long id);
 }

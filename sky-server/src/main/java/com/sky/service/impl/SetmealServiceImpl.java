@@ -6,9 +6,12 @@ import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
+import com.sky.exception.SetmealEnableFailedException;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -23,10 +26,12 @@ import java.util.List;
 public class SetmealServiceImpl implements SetmealService {
     private final SetmealMapper setmealMapper;
     private final SetmealDishMapper setmealDishMapper;
+    private final DishMapper dishMapper;
 
-    public SetmealServiceImpl(SetmealMapper setmealMapper, SetmealDishMapper setmealDishMapper) {
+    public SetmealServiceImpl(SetmealMapper setmealMapper, SetmealDishMapper setmealDishMapper, DishMapper dishMapper) {
         this.setmealMapper = setmealMapper;
         this.setmealDishMapper = setmealDishMapper;
+        this.dishMapper = dishMapper;
     }
 
     @Override
@@ -85,5 +90,25 @@ public class SetmealServiceImpl implements SetmealService {
         setmealVO.setCategoryName(setmealMapper.getCategoryNameById(setmeal.getCategoryId()));
         setmealVO.setSetmealDishes(setmealDishMapper.getBySetmealId(id));
         return setmealVO;
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        if (status.equals(StatusConstant.DISABLE)) {
+            Setmeal setmeal = setmealMapper.getById(id);
+            setmeal.setStatus(status);
+            setmealMapper.update(setmeal);
+        } else {
+            List<SetmealDish> setmealDishes = setmealDishMapper.getBySetmealId(id);
+            for (SetmealDish setmealDish : setmealDishes) {
+                Dish dish = dishMapper.getById(setmealDish.getDishId());
+                if (dish.getStatus().equals(StatusConstant.DISABLE)) {
+                    throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+                }
+            }
+            Setmeal setmeal = setmealMapper.getById(id);
+            setmeal.setStatus(status);
+            setmealMapper.update(setmeal);
+        }
     }
 }
