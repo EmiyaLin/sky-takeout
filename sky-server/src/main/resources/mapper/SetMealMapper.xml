@@ -17,4 +17,23 @@
                     #{dish.name}, #{dish.price}, #{dish.copies})
         </foreach>
     </insert>
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+        select
+            s.*,
+            c.name categoryName
+        from setmeal s
+        left join category c
+        on s.category_id = c.id
+        <where>
+            <if test="categoryId != null">
+                category_id = #{categoryId}
+            </if>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>
