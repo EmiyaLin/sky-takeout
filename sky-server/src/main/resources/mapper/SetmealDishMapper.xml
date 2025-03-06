@@ -9,6 +9,14 @@
         </set>
         where id in (select setmeal_id from setmeal_dish where dish_id = #{id})
     </update>
+    <delete id="deleteByMealId">
+        delete from setmeal_dish
+        <where>
+            <if test="setmealId != null">
+                setmeal_id = #{setmealId}
+            </if>
+        </where>
+    </delete>
 
     <select id="getSetmealIdsByDishIds" resultType="java.lang.Long">
         select id

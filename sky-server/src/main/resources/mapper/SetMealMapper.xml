@@ -17,6 +17,14 @@
                     #{dish.name}, #{dish.price}, #{dish.copies})
         </foreach>
     </insert>
+    <delete id="deleteById">
+        delete from setmeal
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </delete>
     <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
         select
             s.*,
@@ -33,6 +41,14 @@
             </if>
             <if test="status != null">
                 and status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="getById" resultType="com.sky.entity.Setmeal">
+        select * from setmeal
+        <where>
+            <if test="id != null">
+                id = #{id}
             </if>
         </where>
     </select>
