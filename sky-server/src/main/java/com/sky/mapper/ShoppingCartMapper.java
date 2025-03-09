@@ -18,4 +18,8 @@ public interface ShoppingCartMapper {
             "amount, create_time) values(#{name}, #{image}, #{userId}, #{dishId}, #{setmealId}, #{dishFlavor}, " +
             "#{number}, #{amount}, #{createTime})")
     void insert(ShoppingCart shoppingCart);
+
+    void deleteByUserId(Long currentId);
+
+    void deleteById(Long id);
 }
