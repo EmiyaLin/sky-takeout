@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface OrderDetailsMapper {
     void insertBatch(List<OrderDetail> orderDetails);
+
+    List<OrderDetail> getByOrderId(Long id);
 }
