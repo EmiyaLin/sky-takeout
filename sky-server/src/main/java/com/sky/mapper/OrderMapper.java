@@ -34,4 +34,6 @@ public interface OrderMapper {
     Orders getByIdAndUserId(Long id, Long userId);
 
     void updateStatusByOrderId(Long id, Integer status);
+
+    int countStatus(Integer confirmed);
 }
