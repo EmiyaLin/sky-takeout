@@ -36,4 +36,7 @@ public interface OrderMapper {
     void updateStatusByOrderId(Long id, Integer status);
 
     int countStatus(Integer confirmed);
+
+    @Select("select * from orders where id = #{id}")
+    Orders getById(Long id);
 }

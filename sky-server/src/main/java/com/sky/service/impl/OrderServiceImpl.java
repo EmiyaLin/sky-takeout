@@ -159,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderVO getDeatilByOrderId(Long id) {
-        Orders orders = orderMapper.getByIdAndUserId(id, BaseContext.getCurrentId());
+        Orders orders = orderMapper.getById(id);
         OrderVO orderVO = new OrderVO();
         Long orderId = orders.getId();
         BeanUtils.copyProperties(orders, orderVO);
