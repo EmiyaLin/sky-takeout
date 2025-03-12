@@ -50,4 +50,10 @@ public class OrderController {
         PageResult pageResult = orderService.historyOrdersPageQuery(page, pageSize, status);
         return Result.success(pageResult);
     }
+
+    @GetMapping("/orderDetail/{id}")
+    public Result<OrderVO> orderDetail(@PathVariable Long id) {
+        OrderVO result = orderService.getDeatilByOrderId(id);
+        return Result.success(result);
+    }
 }

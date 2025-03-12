@@ -5,6 +5,7 @@ import com.sky.dto.OrdersSubmitDTO;
 import com.sky.result.PageResult;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 
 public interface OrderService {
     OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO);
@@ -22,4 +23,6 @@ public interface OrderService {
     void paySuccess(String outTradeNo);
 
     PageResult historyOrdersPageQuery(Integer page, Integer pageSize, Integer status);
+
+    OrderVO getDeatilByOrderId(Long id);
 }

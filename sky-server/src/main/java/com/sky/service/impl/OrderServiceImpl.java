@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
@@ -155,5 +156,16 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return new PageResult(pageResult.getTotal(), list);
+    }
+
+    @Override
+    public OrderVO getDeatilByOrderId(Long id) {
+        Orders orders = orderMapper.getByIdAndUserId(id, BaseContext.getCurrentId());
+        OrderVO orderVO = new OrderVO();
+        Long orderId = orders.getId();
+        BeanUtils.copyProperties(orders, orderVO);
+        List<OrderDetail> orderDetails = orderDetailsMapper.getByOrderId(orderId);
+        orderVO.setOrderDetailList(orderDetails);
+        return orderVO;
     }
 }
