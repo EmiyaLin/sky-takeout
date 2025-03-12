@@ -25,4 +25,6 @@ public interface OrderService {
     PageResult historyOrdersPageQuery(Integer page, Integer pageSize, Integer status);
 
     OrderVO getDeatilByOrderId(Long id);
+
+    void cancelOrder(Long id);
 }

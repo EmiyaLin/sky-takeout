@@ -168,4 +168,24 @@ public class OrderServiceImpl implements OrderService {
         orderVO.setOrderDetailList(orderDetails);
         return orderVO;
     }
+
+    @Override
+    public void cancelOrder(Long id) {
+        Orders order = orderMapper.getByIdAndUserId(id, BaseContext.getCurrentId());
+        if (order == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (order.getStatus() > 2) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        if (order.getStatus() == 2) {
+            order.setPayStatus(Orders.REFUND);
+        }
+
+        Orders orders = new Orders();
+        orders.setStatus(Orders.CANCELLED);
+        orders.setCancelTime(LocalDateTime.now());
+        orders.setCancelReason("用户取消");
+        orderMapper.update(orders);
+    }
 }

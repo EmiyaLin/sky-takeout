@@ -46,14 +46,23 @@ public class OrderController {
     }
 
     @GetMapping("/historyOrders")
+    @ApiOperation("查看历史订单")
     public Result<PageResult> historyOrders(Integer page, Integer pageSize, Integer status) {
         PageResult pageResult = orderService.historyOrdersPageQuery(page, pageSize, status);
         return Result.success(pageResult);
     }
 
     @GetMapping("/orderDetail/{id}")
+    @ApiOperation("查看订单详情")
     public Result<OrderVO> orderDetail(@PathVariable Long id) {
         OrderVO result = orderService.getDeatilByOrderId(id);
         return Result.success(result);
+    }
+
+    @PutMapping("/cancel/{id}")
+    @ApiOperation("取消订单")
+    public Result cancel(@PathVariable Long id) {
+        orderService.cancelOrder(id);
+        return Result.success();
     }
 }

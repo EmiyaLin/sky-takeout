@@ -32,4 +32,6 @@ public interface OrderMapper {
     Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
 
     Orders getByIdAndUserId(Long id, Long userId);
+
+    void updateStatusByOrderId(Long id, Integer status);
 }
