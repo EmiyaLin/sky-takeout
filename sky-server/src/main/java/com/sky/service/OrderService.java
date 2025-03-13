@@ -44,4 +44,6 @@ public interface OrderService {
     void complete(Long id);
 
     void processTimeoutOrder();
+
+    void reminder(Long id);
 }
