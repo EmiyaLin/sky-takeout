@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         String shopLngLat = lat + "," + lng;
 
         System.out.println("***********" + address);
-        map.put("address", address);
+                        map.put("address", address);
         String addressCoordinate = HttpClientUtil.doGet("https://api.map.baidu.com/geocoding/v3", map);
         jsonObject = JSONObject.parseObject(addressCoordinate);
         if (!jsonObject.getString("status").equals("0")) {
@@ -327,6 +327,19 @@ public class OrderServiceImpl implements OrderService {
         orders.setId(orderDB.getId());
         orders.setStatus(Orders.COMPLETED);
         orderMapper.update(orders);
+    }
+
+    @Override
+    public void processTimeoutOrder() {
+        List<Orders> ordersList = orderMapper.getByStatusAndOrdertimeLT(Orders.PENDING_PAYMENT, LocalDateTime.now().minusMinutes(15));
+        if (ordersList != null && !ordersList.isEmpty()) {
+            for (Orders orders : ordersList) {
+                orders.setCancelTime(LocalDateTime.now());
+                orders.setStatus(Orders.CANCELLED);
+                orders.setCancelReason("支付超时，已取消");
+                orderMapper.update(orders);
+            }
+        }
     }
 
     private List<OrderVO> getOrderVOList(Page<Orders> page) {
